@@ -12,13 +12,39 @@ public class Playlist {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         String input_title;
+        String input_option;
 
         System.out.println("Enter playlist's title:");
         input_title = scan.nextLine();
 
         Playlist pl = new Playlist(input_title);
 
+        pl.printMenu();
+        input_option = scan.next();
 
+        //clear the scanner
+        scan.nextLine();
+
+
+    }
+
+    void outputFullPlaylist() {
+
+        int count = 0;
+        SongEntry currSong = this.getHead();
+
+        System.out.println(this.getTitle() + " - OUTPUT FULL PLAYLIST");
+
+        if (this.getHead() == null) {
+            System.out.println("Playlist is empty");
+        } else {
+            this.getHead().printPlaylistSongs();
+
+            while (currSong.getNext() != null) {
+                currSong = currSong.getNext();
+                currSong.printPlaylistSongs();
+            }
+        }
     }
 
     void printMenu() {
@@ -42,4 +68,7 @@ public class Playlist {
         return title;
     }
 
+    public SongEntry getHead() {
+        return head;
+    }
 }
