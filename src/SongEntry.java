@@ -32,8 +32,7 @@ public class SongEntry {
     }
 
     public void setNext(SongEntry nextNode) {
-        //TODO: finish
-        System.out.println("call to void setNext(SongEntry nextNode)");
+        this.nextNode = nextNode;
     }
 
     public String getID() {
@@ -41,23 +40,19 @@ public class SongEntry {
     }
 
     public String getSongName() {
-        //TODO: finish
-        return "need to implement String getSongName()";
+        return songName;
     }
 
     public String getArtistName() {
-        //TODO: finish
-        return "need to implement String getArtistName()";
+        return artistName;
     }
 
     public int getSongLength() {
-        //TODO: finish
-        return -1;
+        return songLength;
     }
 
     public SongEntry getNext() {
-        //TODO: finish
-        return null;
+        return nextNode;
     }
 
     public void printPlaylistSongs() {
