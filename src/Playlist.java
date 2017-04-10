@@ -60,6 +60,23 @@ public class Playlist {
                 "Choose an option:");
     }
 
+    void addSong() {
+
+        String inputUid;
+        String inputSongTitle;
+        String inputartistName;
+        int inputLength;
+        SongEntry tail = this.getTail();
+
+        SongEntry se = new SongEntry();
+        se.insertAfter(tail);
+    }
+
+    private SongEntry getTail() {
+        //TODO finish this
+        return new SongEntry();
+    }
+
     public Playlist(String title) {
         this.title = title;
     }
