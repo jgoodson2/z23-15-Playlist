@@ -56,8 +56,10 @@ public class SongEntry {
     }
 
     public void printPlaylistSongs() {
-        //TODO: finish
-        System.out.println("call to void printPlaylistSongs()");
+        System.out.println("Unique ID: " + uniqueID);
+        System.out.println("Song Name: " + songName);
+        System.out.println("Artist Name: " + artistName);
+        System.out.println("Song Length (in seconds): " + songLength);
     }
 
 }
