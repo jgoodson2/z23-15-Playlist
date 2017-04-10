@@ -46,7 +46,9 @@ Ex:
     Enter playlist's title:
     JAMZ 
 
-## (3) Implement the printMenu() method. printMenu() takes the playlist title as a parameter and a Scanner object, outputs a menu of options to manipulate the playlist, and reads the user menu selection. Each option is represented by a single character. Build and output the menu within the method.
+## (3) Implement the printMenu() method. 
+
+printMenu() takes the playlist title as a parameter and a Scanner object, outputs a menu of options to manipulate the playlist, and reads the user menu selection. Each option is represented by a single character. Build and output the menu within the method.
 
 If an invalid character is entered, continue to prompt for a valid choice. Hint: Implement Quit before implementing other options. Call printMenu() in the main() method. Continue to execute the menu until the user enters q to Quit. (3 pts) 
 
@@ -101,8 +103,8 @@ Ex:
 
 Ex (empty playlist):
 
-JAMZ - OUTPUT FULL PLAYLIST
-Playlist is empty
+    JAMZ - OUTPUT FULL PLAYLIST
+    Playlist is empty
 
 ## (5) Implement the "Add song" menu item. New additions are added to the end of the list. (2 pts) 
 
@@ -127,7 +129,9 @@ Ex:
     JJ234
     "All For You" removed
 
-## (7) Implement the "Change position of song" menu option. Prompt the user for the current position of the song and the desired new position. Valid new positions are 1 - n (the number of nodes). If the user enters a new position that is less than 1, move the node to the position 1 (the head). If the user enters a new position greater than n, move the node to position n (the tail). 6 cases will be tested:
+## (7) Implement the "Change position of song" menu option.
+
+Prompt the user for the current position of the song and the desired new position. Valid new positions are 1 - n (the number of nodes). If the user enters a new position that is less than 1, move the node to the position 1 (the head). If the user enters a new position greater than n, move the node to position n (the tail). 6 cases will be tested:
 
 * Moving the head node (1 pt)
 * Moving the tail node (1 pt)
@@ -145,7 +149,9 @@ Ex:
     2
     "Canned Heat" moved to position 2
 
-## (8) Implement the "Output songs by specific artist" menu option. Prompt the user for the artist's name, and output the node's information, starting with the node's current position. (2 pt) 
+## (8) Implement the "Output songs by specific artist" menu option.
+
+Prompt the user for the artist's name, and output the node's information, starting with the node's current position. (2 pt) 
 
 Ex:
 
