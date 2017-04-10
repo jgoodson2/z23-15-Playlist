@@ -11,7 +11,7 @@
 
 Build the `SongEntry` class per the following specifications. Note: Some methods can initially be method stubs (empty methods), to be completed in later steps.
 
-###Private fields
+###  Private fields
 
 * String uniqueID - Initialized to "none" in default constructor
 * string songName - Initialized to "none" in default constructor
@@ -21,7 +21,7 @@ Build the `SongEntry` class per the following specifications. Note: Some methods
 * Default constructor (1 pt)
 * Parameterized constructor (1 pt)
 
-###Public member methods
+###  Public member methods
 
 * void insertAfter(SongEntry currNode) (1 pt)
 * void setNext(SongEntry nextNode) - Mutator (1 pt)
@@ -32,7 +32,7 @@ Build the `SongEntry` class per the following specifications. Note: Some methods
 * SongEntry getNext() - Accessor
 * void printPlaylistSongs()
 
-###Ex. of printPlaylistSongs output:
+### Ex. of printPlaylistSongs output:
 
 Unique ID: S123
 Song Name: Peg
