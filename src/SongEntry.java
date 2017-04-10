@@ -9,5 +9,11 @@ public class SongEntry {
     private int songLength;
     private SongEntry nextNode;
 
-
+    public SongEntry() {
+        this.uniqueID = "none";
+        this.songName = "none";
+        this.artistName = "none";
+        this.songLength = 0;
+        this.nextNode = null;
+    }
 }
