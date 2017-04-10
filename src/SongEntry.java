@@ -26,42 +26,41 @@ public class SongEntry {
     }
 
     //    Public member methods
-    void insertAfter(SongEntry currNode) {
+    public void insertAfter(SongEntry currNode) {
         //TODO: finish
         System.out.println("call to void insertAfter(SongEntry currNode)");
     }
 
-    void setNext(SongEntry nextNode) {
+    public void setNext(SongEntry nextNode) {
         //TODO: finish
         System.out.println("call to void setNext(SongEntry nextNode)");
     }
 
-    String getID() {
-        //TODO: finish
-        return "need to implement String getID()";
+    public String getID() {
+        return uniqueID;
     }
 
-    String getSongName() {
+    public String getSongName() {
         //TODO: finish
         return "need to implement String getSongName()";
     }
 
-    String getArtistName() {
+    public String getArtistName() {
         //TODO: finish
         return "need to implement String getArtistName()";
     }
 
-    int getSongLength() {
+    public int getSongLength() {
         //TODO: finish
         return -1;
     }
 
-    SongEntry getNext() {
+    public SongEntry getNext() {
         //TODO: finish
         return null;
     }
 
-    void printPlaylistSongs() {
+    public void printPlaylistSongs() {
         //TODO: finish
         System.out.println("call to void printPlaylistSongs()");
     }
