@@ -16,4 +16,12 @@ public class SongEntry {
         this.songLength = 0;
         this.nextNode = null;
     }
+
+    public SongEntry(String uniqueID, String songName, String artistName, int songLength, SongEntry nextNode) {
+        this.uniqueID = uniqueID;
+        this.songName = songName;
+        this.artistName = artistName;
+        this.songLength = songLength;
+        this.nextNode = nextNode;
+    }
 }
