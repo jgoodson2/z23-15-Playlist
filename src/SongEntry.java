@@ -24,4 +24,46 @@ public class SongEntry {
         this.songLength = songLength;
         this.nextNode = nextNode;
     }
+
+    //    Public member methods
+    void insertAfter(SongEntry currNode) {
+        //TODO: finish
+        System.out.println("call to void insertAfter(SongEntry currNode)");
+    }
+
+    void setNext(SongEntry nextNode) {
+        //TODO: finish
+        System.out.println("call to void setNext(SongEntry nextNode)");
+    }
+
+    String getID() {
+        //TODO: finish
+        return "need to implement String getID()";
+    }
+
+    String getSongName() {
+        //TODO: finish
+        return "need to implement String getSongName()";
+    }
+
+    String getArtistName() {
+        //TODO: finish
+        return "need to implement String getArtistName()";
+    }
+
+    int getSongLength() {
+        //TODO: finish
+        return -1;
+    }
+
+    SongEntry getNext() {
+        //TODO: finish
+        return null;
+    }
+
+    void printPlaylistSongs() {
+        //TODO: finish
+        System.out.println("call to void printPlaylistSongs()");
+    }
+
 }
