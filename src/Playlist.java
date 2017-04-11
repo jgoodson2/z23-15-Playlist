@@ -12,7 +12,7 @@ public class Playlist {
         String input_option;
 
         System.out.println("Enter playlist's title:");
-        input_title = scan.nextLine();
+        input_title = scan.nextLine().toUpperCase();
 
         Playlist pl = new Playlist(input_title);
 
@@ -113,18 +113,29 @@ public class Playlist {
         inputLength = scan.nextInt();
         scan.nextLine();//clear the scanner
 
-        SongEntry se = new SongEntry();
-        se.insertAfter(tail);
+        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
 
-        if (pl.getHead() == null) {
-            pl.setHead(se);
-        }
-
+        if (pl.getHead() == null) pl.setHead(se);
+        if (tail != null) se.insertAfter(tail);
     }
 
     private SongEntry getTail() {
-        //TODO finish this
-        return new SongEntry();
+
+        SongEntry tail;
+        SongEntry currSE;
+
+        if (this.getHead() == null) {
+            tail = null;
+        } else if (this.getHead().getNext() == null) {
+            tail = this.getHead();
+        } else {
+            currSE = this.getHead().getNext();
+            while (currSE.getNext() != null) {
+                currSE = currSE.getNext();
+            }
+            tail = currSE;
+        }
+        return tail;
     }
 
     public Playlist(String title) {
