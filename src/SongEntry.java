@@ -27,8 +27,7 @@ public class SongEntry {
 
     //    Public member methods
     public void insertAfter(SongEntry currNode) {
-        //TODO: finish
-        System.out.println("call to void insertAfter(SongEntry currNode)");
+        currNode.setNext(this);
     }
 
     public void setNext(SongEntry nextNode) {
