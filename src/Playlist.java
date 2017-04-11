@@ -25,6 +25,8 @@ public class Playlist {
         //clear the scanner
         scan.nextLine();
 
+        System.out.println("input_option = " + input_option);
+
 
     }
 
