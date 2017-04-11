@@ -38,7 +38,7 @@ public class Playlist {
                 addSong(pl, scan);
                 break;
             case "d":
-                System.out.println("selected 'd' - Remove song");
+                removeSong(pl, scan);
                 break;
             case "c":
                 System.out.println("selected 'c' - Change position of song");
@@ -59,6 +59,70 @@ public class Playlist {
 
         }
 
+    }
+
+    private static void removeSong(Playlist pl, Scanner scan) {
+
+        String inputUid;
+        SongEntry prevSE;
+
+        System.out.println("\nREMOVE SONG");
+        if (pl.getHead() == null) {
+            System.out.println("Playlist is empty");
+        } else {
+            System.out.println("Enter song's unique ID:");
+            inputUid = scan.nextLine();
+
+            if (pl.getHead().getID().equals(inputUid)) {
+                pl.setHead(null);
+            } else {
+                prevSE = getEntryB4Match(pl, inputUid);
+                if (prevSE == null) {
+                    System.out.println("Entry does not exist.");
+                } else if (prevSE.getNext().getNext() != null) {
+                    prevSE.setNext(prevSE.getNext().getNext());
+                } else {
+                    prevSE.setNext(null);
+                }
+            }
+        }
+    }
+
+    private static SongEntry getEntryB4Match(Playlist pl, String inputUid) {
+        SongEntry prevSE = pl.getHead();
+        while (prevSE.getNext() != null) {
+            if (prevSE.getNext().getID().equals(inputUid)) {
+                return prevSE;
+            }
+            prevSE = prevSE.getNext();
+        }
+        return null;
+    }
+
+
+    private static void addSong(Playlist pl, Scanner scan) {
+
+        String inputUid;
+        String inputSongTitle;
+        String inputArtistName;
+        int inputLength;
+        SongEntry tail = pl.getTail();
+
+        System.out.println("\nADD SONG");
+        System.out.println("Enter song's unique ID:");
+        inputUid = scan.nextLine();
+        System.out.println("Enter song's name:");
+        inputSongTitle = scan.nextLine();
+        System.out.println("Enter artist's name:");
+        inputArtistName = scan.nextLine();
+        System.out.println("Enter song's length (in seconds):");
+        inputLength = scan.nextInt();
+        scan.nextLine();//clear the scanner
+
+        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
+
+        if (pl.getHead() == null) pl.setHead(se);
+        if (tail != null) se.insertAfter(tail);
     }
 
     private static void printMenu(Playlist pl) {
@@ -93,31 +157,6 @@ public class Playlist {
                 currSong.printPlaylistSongs();
             }
         }
-    }
-
-    private static void addSong(Playlist pl, Scanner scan) {
-
-        String inputUid;
-        String inputSongTitle;
-        String inputArtistName;
-        int inputLength;
-        SongEntry tail = pl.getTail();
-
-        System.out.println("\nADD SONG");
-        System.out.println("Enter song's unique ID:");
-        inputUid = scan.nextLine();
-        System.out.println("Enter song's name:");
-        inputSongTitle = scan.nextLine();
-        System.out.println("Enter artist's name:");
-        inputArtistName = scan.nextLine();
-        System.out.println("Enter song's length (in seconds):");
-        inputLength = scan.nextInt();
-        scan.nextLine();//clear the scanner
-
-        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
-
-        if (pl.getHead() == null) pl.setHead(se);
-        if (tail != null) se.insertAfter(tail);
     }
 
     private SongEntry getTail() {
