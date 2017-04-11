@@ -53,7 +53,6 @@ public class Playlist {
                 outputFullPlaylist(pl);
                 break;
             case "q":
-                System.out.println("selected 'q' - Quit");
                 break;
             default:
                 System.out.println("Invalid option entered.  Please enter valid menu option.");
@@ -85,10 +84,12 @@ public class Playlist {
         if (pl.getHead() == null) {
             System.out.println("Playlist is empty");
         } else {
+            System.out.println(++count + ".");
             pl.getHead().printPlaylistSongs();
 
             while (currSong.getNext() != null) {
                 currSong = currSong.getNext();
+                System.out.println(++count + ".");
                 currSong.printPlaylistSongs();
             }
         }
@@ -102,7 +103,7 @@ public class Playlist {
         int inputLength;
         SongEntry tail = pl.getTail();
 
-        System.out.println("ADD SONG");
+        System.out.println("\nADD SONG");
         System.out.println("Enter song's unique ID:");
         inputUid = scan.nextLine();
         System.out.println("Enter song's name:");

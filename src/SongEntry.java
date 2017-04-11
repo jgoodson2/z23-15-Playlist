@@ -58,7 +58,7 @@ public class SongEntry {
         System.out.println("Unique ID: " + uniqueID);
         System.out.println("Song Name: " + songName);
         System.out.println("Artist Name: " + artistName);
-        System.out.println("Song Length (in seconds): " + songLength);
+        System.out.println("Song Length (in seconds): " + songLength + "\n");
     }
 
 }
