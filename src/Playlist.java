@@ -6,28 +6,6 @@ import java.util.Scanner;
 
 public class Playlist {
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String input_title;
-        String input_option;
-
-        System.out.println("Enter playlist's title:");
-        input_title = scan.nextLine().toUpperCase();
-
-        Playlist pl = new Playlist(input_title);
-
-        do {
-            System.out.println();
-            printMenu(pl);
-
-            input_option = scan.next().toLowerCase();
-            scan.nextLine();//clear the scanner
-
-            processOption(input_option, pl, scan);
-        } while (!input_option.equals("q"));
-
-    }
-
     private String title;
     private SongEntry head;
     private static String stringPlaylistEmpty = "Playlist is empty";
@@ -43,6 +21,7 @@ public class Playlist {
                 break;
             case "c":
                 System.out.println("selected 'c' - Change position of song");
+                changePosition(pl, scan);
                 break;
             case "s":
                 System.out.println("selected 's' - Output songs by specific artist");
@@ -53,12 +32,41 @@ public class Playlist {
             case "o":
                 outputFullPlaylist(pl);
                 break;
+            //only for testing; remove for deliverable
+            case "gl":
+                System.out.println("length = " + pl.getLength());
+                break;
+            //END OF only for testing; remove for deliverable
             case "q":
                 break;
             default:
                 System.out.println("Invalid option entered.  Please enter valid menu option.");
 
         }
+
+    }
+
+    private static void changePosition(Playlist pl, Scanner scan) {
+
+        int inputCurrPosition;
+        int inputNewPosition;
+
+        System.out.println("\nCHANGE POSITION OF SONG");
+
+        System.out.println("Enter song's current position:");
+        inputCurrPosition = scan.nextInt();
+        scan.nextLine();//clear the scanner
+        if (inputCurrPosition > pl.getLength()) {
+            System.out.println("This position is beyond the bounds of playlist " + pl.getTitle());
+            return;
+        }
+
+        System.out.println("Enter new position for song:");
+        inputNewPosition = scan.nextInt();
+        scan.nextLine();//clear the scanner
+
+        //If the user enters a new position that is less than 1, move the node to the position 1 (the head).
+
 
     }
 
@@ -143,6 +151,7 @@ public class Playlist {
                 "s - Output songs by specific artist\n" +
                 "t - Output total time of playlist (in seconds)\n" +
                 "o - Output full playlist\n" +
+                "gl - Get playlist length\n" +
                 "q - Quit\n" +
                 "\n" +
                 "Choose an option:");
@@ -202,5 +211,44 @@ public class Playlist {
 
     public void setHead(SongEntry head) {
         this.head = head;
+    }
+
+    public int getLength() {
+
+        int length = 0;
+        SongEntry currSE;
+
+        if (this.getHead() != null) {
+            length++;
+            currSE = this.getHead();
+
+            while (currSE.getNext() != null) {
+                length++;
+                currSE = currSE.getNext();
+            }
+        }
+
+        return length;
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String input_title;
+        String input_option;
+
+        System.out.println("Enter playlist's title:");
+        input_title = scan.nextLine().toUpperCase();
+
+        Playlist pl = new Playlist(input_title);
+
+        do {
+            System.out.println();
+            printMenu(pl);
+
+            input_option = scan.next().toLowerCase();
+            scan.nextLine();//clear the scanner
+
+            processOption(input_option, pl, scan);
+        } while (!input_option.equals("q"));
     }
 }
