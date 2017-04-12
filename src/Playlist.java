@@ -30,6 +30,7 @@ public class Playlist {
 
     private String title;
     private SongEntry head;
+    private static String stringPlaylistEmpty = "Playlist is empty";
 
     private static void processOption(String input_option, Playlist pl, Scanner scan) {
 
@@ -68,23 +69,32 @@ public class Playlist {
 
         System.out.println("\nREMOVE SONG");
         if (pl.getHead() == null) {
-            System.out.println("Playlist is empty");
+            System.out.println(stringPlaylistEmpty);
         } else {
             System.out.println("Enter song's unique ID:");
             inputUid = scan.nextLine();
 
-            if (pl.getHead().getID().equals(inputUid)) {
-                pl.setHead(null);
+            //removing HEAD is a little special
+            if (inputUid.equals(pl.getHead().getID())) {
+
+                if (pl.getHead().getNext() == null) {
+
+                    pl.setHead(null);
+                } else {
+
+                    pl.setHead(pl.getHead().getNext());
+                }
             } else {
+
                 prevSE = getEntryB4Match(pl, inputUid);
                 if (prevSE == null) {
                     System.out.println("Entry does not exist.");
-                } else if (prevSE.getNext().getNext() != null) {
+                } else /*entry exists*/ if (prevSE.getNext().getNext() != null) {
                     prevSE.setNext(prevSE.getNext().getNext());
-                } else {
+                } else /*remove last entry*/ {
                     prevSE.setNext(null);
                 }
-            }
+            }g
         }
     }
 
@@ -146,7 +156,7 @@ public class Playlist {
         System.out.println(pl.getTitle() + " - OUTPUT FULL PLAYLIST");
 
         if (pl.getHead() == null) {
-            System.out.println("Playlist is empty");
+            System.out.println(stringPlaylistEmpty);
         } else {
             System.out.println(++count + ".");
             pl.getHead().printPlaylistSongs();
