@@ -94,7 +94,7 @@ public class Playlist {
                 } else /*remove last entry*/ {
                     prevSE.setNext(null);
                 }
-            }g
+            }
         }
     }
 
