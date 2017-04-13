@@ -10,54 +10,20 @@ public class Playlist {
     private SongEntry head;
     private static String stringPlaylistEmpty = "Playlist is empty";
 
-    private static void processOption(String input_option, Playlist pl, Scanner scan) {
-
-        switch (input_option) {
-            case "a":
-                addSong(pl, scan);
-                break;
-            case "d":
-                removeSong(pl, scan);
-                break;
-            case "c":
-                System.out.println("selected 'c' - Change position of song");
-                changePosition(pl, scan);
-                break;
-            case "s":
-                System.out.println("selected 's' - Output songs by specific artist");
-                break;
-            case "t":
-                System.out.println("selected 't' - Output total time of playlist (in seconds)");
-                break;
-            case "o":
-                outputFullPlaylist(pl);
-                break;
-            //only for testing; remove for deliverable
-            case "gl":
-                System.out.println("length = " + pl.getLength());
-                break;
-            //END OF only for testing; remove for deliverable
-            case "q":
-                break;
-            default:
-                System.out.println("Invalid option entered.  Please enter valid menu option.");
-
-        }
-
-    }
-
-    private static void changePosition(Playlist pl, Scanner scan) {
+    private void changePosition(Scanner scan) {
 
         int inputCurrPosition;
         int inputNewPosition;
+        SongEntry se;
 
         System.out.println("\nCHANGE POSITION OF SONG");
 
         System.out.println("Enter song's current position:");
         inputCurrPosition = scan.nextInt();
         scan.nextLine();//clear the scanner
-        if (inputCurrPosition > pl.getLength()) {
-            System.out.println("This position is beyond the bounds of playlist " + pl.getTitle());
+        if (inputCurrPosition > this.getLength()) {
+            System.out.println("Error: invalid position. Playlist " + this.getTitle()
+                    + " consists of " + this.getLength() + " song entries.");
             return;
         }
 
@@ -66,35 +32,49 @@ public class Playlist {
         scan.nextLine();//clear the scanner
 
         //If the user enters a new position that is less than 1, move the node to the position 1 (the head).
+        if (inputNewPosition < 1) {
+            se = getEntryAtIndex(inputCurrPosition);
+            se.setNext(this.getHead());
+            this.setHead(se);
 
+        }
 
     }
 
-    private static void removeSong(Playlist pl, Scanner scan) {
+    private SongEntry getEntryAtIndex(int inputCurrPosition) {
+        SongEntry se = this.getHead();
+        for (int i = 0; i < inputCurrPosition - 1; ++i) {
+            se = se.getNext();
+        }
+        return se;
+    }
+
+
+    private void removeSong(Scanner scan) {
 
         String inputUid;
         SongEntry prevSE;
 
         System.out.println("\nREMOVE SONG");
-        if (pl.getHead() == null) {
+        if (this.getHead() == null) {
             System.out.println(stringPlaylistEmpty);
         } else {
             System.out.println("Enter song's unique ID:");
             inputUid = scan.nextLine();
 
             //removing HEAD is a little special
-            if (inputUid.equals(pl.getHead().getID())) {
+            if (inputUid.equals(this.getHead().getID())) {
 
-                if (pl.getHead().getNext() == null) {
+                if (this.getHead().getNext() == null) {
 
-                    pl.setHead(null);
+                    this.setHead(null);
                 } else {
 
-                    pl.setHead(pl.getHead().getNext());
+                    this.setHead(this.getHead().getNext());
                 }
             } else {
 
-                prevSE = getEntryB4Match(pl, inputUid);
+                prevSE = getEntryB4Match(inputUid);
                 if (prevSE == null) {
                     System.out.println("Entry does not exist.");
                 } else /*entry exists*/ if (prevSE.getNext().getNext() != null) {
@@ -106,8 +86,8 @@ public class Playlist {
         }
     }
 
-    private static SongEntry getEntryB4Match(Playlist pl, String inputUid) {
-        SongEntry prevSE = pl.getHead();
+    private SongEntry getEntryB4Match(String inputUid) {
+        SongEntry prevSE = this.getHead();
         while (prevSE.getNext() != null) {
             if (prevSE.getNext().getID().equals(inputUid)) {
                 return prevSE;
@@ -117,58 +97,18 @@ public class Playlist {
         return null;
     }
 
-
-    private static void addSong(Playlist pl, Scanner scan) {
-
-        String inputUid;
-        String inputSongTitle;
-        String inputArtistName;
-        int inputLength;
-        SongEntry tail = pl.getTail();
-
-        System.out.println("\nADD SONG");
-        System.out.println("Enter song's unique ID:");
-        inputUid = scan.nextLine();
-        System.out.println("Enter song's name:");
-        inputSongTitle = scan.nextLine();
-        System.out.println("Enter artist's name:");
-        inputArtistName = scan.nextLine();
-        System.out.println("Enter song's length (in seconds):");
-        inputLength = scan.nextInt();
-        scan.nextLine();//clear the scanner
-
-        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
-
-        if (pl.getHead() == null) pl.setHead(se);
-        if (tail != null) se.insertAfter(tail);
-    }
-
-    private static void printMenu(Playlist pl) {
-        System.out.println(pl.getTitle().toUpperCase() + " PLAYLIST MENU\n" +
-                "a - Add song\n" +
-                "d - Remove song\n" +
-                "c - Change position of song\n" +
-                "s - Output songs by specific artist\n" +
-                "t - Output total time of playlist (in seconds)\n" +
-                "o - Output full playlist\n" +
-                "gl - Get playlist length\n" +
-                "q - Quit\n" +
-                "\n" +
-                "Choose an option:");
-    }
-
-    private static void outputFullPlaylist(Playlist pl) {
+    private void outputFullPlaylist() {
 
         int count = 0;
-        SongEntry currSong = pl.getHead();
+        SongEntry currSong = this.getHead();
 
-        System.out.println(pl.getTitle() + " - OUTPUT FULL PLAYLIST");
+        System.out.println(this.getTitle() + " - OUTPUT FULL PLAYLIST");
 
-        if (pl.getHead() == null) {
+        if (this.getHead() == null) {
             System.out.println(stringPlaylistEmpty);
         } else {
             System.out.println(++count + ".");
-            pl.getHead().printPlaylistSongs();
+            this.getHead().printPlaylistSongs();
 
             while (currSong.getNext() != null) {
                 currSong = currSong.getNext();
@@ -234,7 +174,7 @@ public class Playlist {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         String input_title;
-        String input_option;
+        String inputOption;
 
         System.out.println("Enter playlist's title:");
         input_title = scan.nextLine().toUpperCase();
@@ -243,12 +183,87 @@ public class Playlist {
 
         do {
             System.out.println();
-            printMenu(pl);
+            pl.printMenu();
+            //printMenu(pl);
 
-            input_option = scan.next().toLowerCase();
+            inputOption = scan.next().toLowerCase();
             scan.nextLine();//clear the scanner
 
-            processOption(input_option, pl, scan);
-        } while (!input_option.equals("q"));
+            pl.processOption(inputOption, scan);
+//            processOption(inputOption, pl, scan);
+        } while (!inputOption.equals("q"));
+    }
+
+    private void processOption(String inputOption, Scanner scan) {
+
+        switch (inputOption) {
+            case "a":
+                addSong(scan);
+                break;
+            case "d":
+                removeSong(scan);
+                break;
+            case "c":
+                changePosition(scan);
+                break;
+            case "s":
+                System.out.println("selected 's' - Output songs by specific artist");
+                break;
+            case "t":
+                System.out.println("selected 't' - Output total time of playlist (in seconds)");
+                break;
+            case "o":
+                outputFullPlaylist();
+                break;
+            //only for testing; remove for deliverable
+            case "gl":
+                System.out.println("length = " + this.getLength());
+                break;
+            //END OF only for testing; remove for deliverable
+            case "q":
+                break;
+            default:
+                System.out.println("Invalid option entered.  Please enter valid menu option.");
+
+        }
+    }
+
+
+    private void addSong(Scanner scan) {
+        String inputUid;
+        String inputSongTitle;
+        String inputArtistName;
+        int inputLength;
+        SongEntry tail = this.getTail();
+
+        System.out.println("\nADD SONG");
+        System.out.println("Enter song's unique ID:");
+        inputUid = scan.nextLine();
+        System.out.println("Enter song's name:");
+        inputSongTitle = scan.nextLine();
+        System.out.println("Enter artist's name:");
+        inputArtistName = scan.nextLine();
+        System.out.println("Enter song's length (in seconds):");
+        inputLength = scan.nextInt();
+        scan.nextLine();//clear the scanner
+
+        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
+
+        if (this.getHead() == null) this.setHead(se);
+        if (tail != null) se.insertAfter(tail);
+    }
+
+    private void printMenu() {
+        System.out.println(this.getTitle().toUpperCase() + " PLAYLIST MENU\n" +
+                "a - Add song\n" +
+                "d - Remove song\n" +
+                "c - Change position of song\n" +
+                "s - Output songs by specific artist\n" +
+                "t - Output total time of playlist (in seconds)\n" +
+                "o - Output full playlist\n" +
+                "gl - Get playlist length\n" +
+                "q - Quit\n" +
+                "\n" +
+                "Choose an option:");
     }
 }
