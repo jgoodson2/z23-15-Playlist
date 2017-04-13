@@ -15,6 +15,10 @@ public class Playlist {
         int inputCurrPosition;
         int inputNewPosition;
         SongEntry se;
+        SongEntry currPrevSe;
+        SongEntry currNextSe;
+        SongEntry newPrevSe;
+        SongEntry newNextSe;
 
         System.out.println("\nCHANGE POSITION OF SONG");
 
@@ -30,18 +34,53 @@ public class Playlist {
         System.out.println("Enter new position for song:");
         inputNewPosition = scan.nextInt();
         scan.nextLine();//clear the scanner
-
-        //If the user enters a new position that is less than 1, move the node to the position 1 (the head).
-        if (inputNewPosition < 1) {
-            se = getEntryAtIndex(inputCurrPosition);
-            se.setNext(this.getHead());
-            this.setHead(se);
-
+        if (inputNewPosition > this.getLength()) {
+            inputNewPosition = this.getLength();
         }
 
+        //If the user enters a new position that is less than 1, move the node to the position 1 (the head).
+//        if (inputNewPosition < 1 && inputCurrPosition > 1/*if the node is already the head, no need to do anything*/) {
+        if (
+            //nothing needs to be done if head node is to changed to head position
+            // or tail node is to be changed to tail position
+            // or current position is the same as new position
+                !((inputNewPosition < 2 && inputCurrPosition == 1)
+                        || (inputNewPosition >= this.getLength()) && inputCurrPosition == this.getLength())
+                        || (inputCurrPosition != inputNewPosition)
+                ) {
+            se = getEntryAtIndex(inputCurrPosition);
+            currPrevSe = (getEntryAtIndex(inputCurrPosition - 1) == null) ? null : getEntryAtIndex(inputCurrPosition - 1);
+            currNextSe = (getEntryAtIndex(inputCurrPosition + 1) == null) ? null : getEntryAtIndex(inputCurrPosition + 1);
+
+            //take node out cleanly
+            if (inputCurrPosition == 1) {
+                this.setHead(currNextSe);
+            } else if (inputCurrPosition == this.getLength()) {
+                currPrevSe.setNext(null);
+            } else {
+                currPrevSe.setNext(currNextSe);
+            }
+
+            newPrevSe = (getEntryAtIndex(inputNewPosition - 1) == null) ? null : getEntryAtIndex(inputNewPosition - 1);
+            newNextSe = (getEntryAtIndex(inputNewPosition) == null) ? null : getEntryAtIndex(inputNewPosition);
+
+            //add node at new position
+            if (inputNewPosition == 1) {
+                this.setHead(se);
+                se.setNext(newNextSe);
+            } else if (inputNewPosition == this.getLength() + 1) {
+                se.setNext(null);
+                newPrevSe.setNext(se);
+            } else {
+                newPrevSe.setNext(se);
+                se.setNext(newNextSe);
+            }
+        }
     }
 
     private SongEntry getEntryAtIndex(int inputCurrPosition) {
+        if (inputCurrPosition == 0) return null;
+
         SongEntry se = this.getHead();
         for (int i = 0; i < inputCurrPosition - 1; ++i) {
             se = se.getNext();
@@ -167,28 +206,6 @@ public class Playlist {
         return length;
     }
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String input_title;
-        String inputOption;
-
-        System.out.println("Enter playlist's title:");
-        input_title = scan.nextLine().toUpperCase();
-
-        Playlist pl = new Playlist(input_title);
-
-        do {
-            System.out.println();
-            pl.printMenu();
-            //printMenu(pl);
-
-            inputOption = scan.next().toLowerCase();
-            scan.nextLine();//clear the scanner
-
-            pl.processOption(inputOption, scan);
-        } while (!inputOption.equals("q"));
-    }
-
     private void processOption(String inputOption, Scanner scan) {
 
         switch (inputOption) {
@@ -229,23 +246,42 @@ public class Playlist {
         String inputSongTitle;
         String inputArtistName;
         int inputLength;
-        SongEntry tail = this.getTail();
+//        SongEntry tail = this.getTail();
 
         System.out.println("\nADD SONG");
-        System.out.println("Enter song's unique ID:");
-        inputUid = scan.nextLine();
-        System.out.println("Enter song's name:");
-        inputSongTitle = scan.nextLine();
-        System.out.println("Enter artist's name:");
-        inputArtistName = scan.nextLine();
-        System.out.println("Enter song's length (in seconds):");
-        inputLength = scan.nextInt();
-        scan.nextLine();//clear the scanner
 
-        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
+        //uncomment for deliverable
+//        System.out.println("Enter song's unique ID:");
+//        inputUid = scan.nextLine();
+//        System.out.println("Enter song's name:");
+//        inputSongTitle = scan.nextLine();
+//        System.out.println("Enter artist's name:");
+//        inputArtistName = scan.nextLine();
+//        System.out.println("Enter song's length (in seconds):");
+//        inputLength = scan.nextInt();
+//        scan.nextLine();//clear the scanner
+//
+//        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
+//
+//        if (this.getHead() == null) {
+//            this.setHead(se);
+//        } else {
+//            se.insertAfter(this.getTail());
+//        }
+        //END OF uncomment for deliverable
 
-        if (this.getHead() == null) this.setHead(se);
-        if (tail != null) se.insertAfter(tail);
+
+        //FOR TESTING ONLY
+        for (int i = 1; i <= 7; ++i) {
+            SongEntry se2 = new SongEntry(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, null);
+
+            if (this.getHead() == null) {
+                this.setHead(se2);
+            } else {
+                se2.insertAfter(this.getTail());
+            }
+        }
+        //end of FOR TESTING ONLY
     }
 
     private void printMenu() {
@@ -260,5 +296,24 @@ public class Playlist {
                 "q - Quit\n" +
                 "\n" +
                 "Choose an option:");
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String input_title;
+        String inputOption;
+
+        System.out.println("Enter playlist's title:");
+        input_title = scan.nextLine().toUpperCase();
+
+        Playlist pl = new Playlist(input_title);
+
+        do {
+            System.out.println();
+            pl.printMenu();
+            inputOption = scan.next().toLowerCase();
+            scan.nextLine();//clear the scanner
+            pl.processOption(inputOption, scan);
+        } while (!inputOption.equals("q"));
     }
 }
