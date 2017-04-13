@@ -64,16 +64,12 @@ public class Playlist {
 
             //removing HEAD is a little special
             if (inputUid.equals(this.getHead().getID())) {
-
                 if (this.getHead().getNext() == null) {
-
                     this.setHead(null);
                 } else {
-
                     this.setHead(this.getHead().getNext());
                 }
             } else {
-
                 prevSE = getEntryB4Match(inputUid);
                 if (prevSE == null) {
                     System.out.println("Entry does not exist.");
@@ -190,7 +186,6 @@ public class Playlist {
             scan.nextLine();//clear the scanner
 
             pl.processOption(inputOption, scan);
-//            processOption(inputOption, pl, scan);
         } while (!inputOption.equals("q"));
     }
 
