@@ -219,7 +219,7 @@ public class Playlist {
                 changePosition(scan);
                 break;
             case "s":
-                System.out.println("selected 's' - Output songs by specific artist");
+                outputArtistSongs(scan);
                 break;
             case "t":
                 System.out.println("selected 't' - Output total time of playlist (in seconds)");
@@ -240,47 +240,76 @@ public class Playlist {
         }
     }
 
+    private void outputArtistSongs(Scanner scan) {
+
+        System.out.println("OUTPUT SONGS BY SPECIFIC ARTIST");
+        System.out.println("Enter artist's name:");
+        String artist = scan.nextLine().replaceAll("\\s", "").toLowerCase();
+
+        int count = 1;
+        SongEntry currSong;
+
+
+        if (this.getHead() == null) {
+            System.out.println(stringPlaylistEmpty);
+        } else {
+            currSong = this.getHead();
+//            System.out.println(++count + ".");
+            if (currSong.getArtistName().replaceAll("\\s", "").toLowerCase().equals(artist)) {
+                System.out.println(++count + ".");
+                currSong.printPlaylistSongs();
+            }
+
+            while (currSong.getNext() != null) {
+                if (currSong.getArtistName().replaceAll("\\s", "").toLowerCase().equals(artist)) {
+                    currSong = currSong.getNext();
+                    System.out.println(++count + ".");
+                    currSong.printPlaylistSongs();
+                }
+            }
+        }
+    }
+
 
     private void addSong(Scanner scan) {
         String inputUid;
         String inputSongTitle;
         String inputArtistName;
         int inputLength;
-//        SongEntry tail = this.getTail();
 
         System.out.println("\nADD SONG");
 
         //uncomment for deliverable
-//        System.out.println("Enter song's unique ID:");
-//        inputUid = scan.nextLine();
-//        System.out.println("Enter song's name:");
-//        inputSongTitle = scan.nextLine();
-//        System.out.println("Enter artist's name:");
-//        inputArtistName = scan.nextLine();
-//        System.out.println("Enter song's length (in seconds):");
-//        inputLength = scan.nextInt();
-//        scan.nextLine();//clear the scanner
-//
-//        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
-//
-//        if (this.getHead() == null) {
-//            this.setHead(se);
-//        } else {
-//            se.insertAfter(this.getTail());
-//        }
+        System.out.println("Enter song's unique ID:");
+        inputUid = scan.nextLine();
+        System.out.println("Enter song's name:");
+        inputSongTitle = scan.nextLine();
+        System.out.println("Enter artist's name:");
+        inputArtistName = scan.nextLine();
+        System.out.println("Enter song's length (in seconds):");
+        inputLength = scan.nextInt();
+        scan.nextLine();//clear the scanner
+
+        SongEntry se = new SongEntry(inputUid, inputSongTitle, inputArtistName, inputLength, null);
+
+        if (this.getHead() == null) {
+            this.setHead(se);
+        } else {
+            se.insertAfter(this.getTail());
+        }
         //END OF uncomment for deliverable
 
 
-        //FOR TESTING ONLY
-        for (int i = 1; i <= 7; ++i) {
-            SongEntry se2 = new SongEntry(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, null);
-
-            if (this.getHead() == null) {
-                this.setHead(se2);
-            } else {
-                se2.insertAfter(this.getTail());
-            }
-        }
+        //FOR TESTING ONLY - autopopulate songs
+//        for (int i = 1; i <= 7; ++i) {
+//            SongEntry se2 = new SongEntry(Integer.toString(i), Integer.toString(i), Integer.toString(i), i, null);
+//
+//            if (this.getHead() == null) {
+//                this.setHead(se2);
+//            } else {
+//                se2.insertAfter(this.getTail());
+//            }
+//        }
         //end of FOR TESTING ONLY
     }
 
