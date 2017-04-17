@@ -206,40 +206,6 @@ public class Playlist {
         return length;
     }
 
-    private void processOption(String inputOption, Scanner scan) {
-
-        switch (inputOption) {
-            case "a":
-                addSong(scan);
-                break;
-            case "d":
-                removeSong(scan);
-                break;
-            case "c":
-                changePosition(scan);
-                break;
-            case "s":
-                outputArtistSongs(scan);
-                break;
-            case "t":
-                System.out.println("selected 't' - Output total time of playlist (in seconds)");
-                break;
-            case "o":
-                outputFullPlaylist();
-                break;
-            //only for testing; remove for deliverable
-            case "gl":
-                System.out.println("length = " + this.getLength());
-                break;
-            //END OF only for testing; remove for deliverable
-            case "q":
-                break;
-            default:
-                System.out.println("Invalid option entered.  Please enter valid menu option.");
-
-        }
-    }
-
     private void outputArtistSongs(Scanner scan) {
 
         System.out.println("OUTPUT SONGS BY SPECIFIC ARTIST");
@@ -261,15 +227,14 @@ public class Playlist {
             }
 
             while (currSong.getNext() != null) {
+                currSong = currSong.getNext();
                 if (currSong.getArtistName().replaceAll("\\s", "").toLowerCase().equals(artist)) {
-                    currSong = currSong.getNext();
                     System.out.println(++count + ".");
                     currSong.printPlaylistSongs();
                 }
             }
         }
     }
-
 
     private void addSong(Scanner scan) {
         String inputUid;
@@ -313,6 +278,61 @@ public class Playlist {
         //end of FOR TESTING ONLY
     }
 
+    private void processOption(String inputOption, Scanner scan) {
+
+        switch (inputOption) {
+            case "a":
+                addSong(scan);
+                break;
+            case "d":
+                removeSong(scan);
+                break;
+            case "c":
+                changePosition(scan);
+                break;
+            case "s":
+                outputArtistSongs(scan);
+                break;
+            case "t":
+                outputTotalTime();
+                break;
+            case "o":
+                outputFullPlaylist();
+                break;
+            //only for testing; remove for deliverable
+            case "gl":
+                System.out.println("length = " + this.getLength());
+                break;
+            //END OF only for testing; remove for deliverable
+            case "q":
+                break;
+            default:
+                System.out.println("Invalid option entered.  Please enter valid menu option.");
+
+        }
+    }
+
+    private void outputTotalTime() {
+        System.out.printf("OUTPUT TOTAL TIME OF PLAYLIST (IN SECONDS)\n" +
+                "Total time: %s seconds\n", this.getTotalTime());
+    }
+
+    private int getTotalTime() {
+        SongEntry se;
+        int time = 0;
+        if (this.getHead() == null) {
+            return time;
+        }
+        se = this.getHead();
+        time += se.getSongLength();
+        while (se.getNext() != null) {
+            se = se.getNext();
+            time += se.getSongLength();
+        }
+        return time;
+    }
+
+
     private void printMenu() {
         System.out.println(this.getTitle().toUpperCase() + " PLAYLIST MENU\n" +
                 "a - Add song\n" +
@@ -321,7 +341,6 @@ public class Playlist {
                 "s - Output songs by specific artist\n" +
                 "t - Output total time of playlist (in seconds)\n" +
                 "o - Output full playlist\n" +
-                "gl - Get playlist length\n" +
                 "q - Quit\n" +
                 "\n" +
                 "Choose an option:");
